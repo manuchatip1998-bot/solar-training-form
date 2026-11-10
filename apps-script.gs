@@ -33,9 +33,10 @@ const FIELDS = [
   ['status',      'สถานะ (เจ้าหน้าที่กรอก)'],
 ];
 
-// คอลัมน์ 'จังหวัด' ยังเก็บไว้ใน FIELDS เพื่อไม่ให้คอลัมน์ในชีตเดิมเลื่อน (หน้าเว็บเลิกถามจังหวัดแล้ว ช่องนี้จะว่าง)
-const REQUIRED = ['prefix', 'firstName', 'lastName', 'age', 'phone', 'education',
-  'occupation', 'experience', 'certificate', 'courses', 'schedule', 'goal', 'consent'];
+// คอลัมน์ จังหวัด / วุฒิการศึกษา / สาขา / อาชีพ / ประสบการณ์ / หนังสือรับรอง ยังเก็บไว้ใน FIELDS
+// เพื่อไม่ให้คอลัมน์ในชีตเดิมเลื่อน (หน้าเว็บเลิกถามแล้ว ใบสมัครใหม่ช่องเหล่านี้จะว่าง)
+const REQUIRED = ['prefix', 'firstName', 'lastName', 'age', 'phone',
+  'courses', 'schedule', 'goal', 'consent'];
 
 // เปิด URL ของเว็บแอป (/exec) = แสดงหน้าฟอร์มจากไฟล์ index.html ในโปรเจกต์นี้
 // ต่อท้าย ?ping=1 เพื่อเช็กว่าระบบทำงาน

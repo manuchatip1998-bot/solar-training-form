@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-/* Layout: แถบหัวลายแผงเซลล์ (PV cell grid) + การ์ดฟอร์มคอลัมน์เดียว แบ่ง 4 ขั้นตอน */
+/* Layout: แถบหัวลายแผงเซลล์ (PV cell grid) + การ์ดฟอร์มคอลัมน์เดียว แบ่ง 3 ขั้นตอน */
 :root {
   --bg: #f3f6f9;
   --surface: #ffffff;
@@ -271,51 +271,7 @@ button.submit[disabled] { opacity: .65; cursor: progress; }
 
       <!-- 2 -->
       <fieldset>
-        <legend><span class="step">2</span><span class="legend-text">การศึกษาและประสบการณ์<small>ไม่มีพื้นฐานไฟฟ้าก็สมัครได้ ข้อมูลนี้ใช้จัดกลุ่มผู้เรียน</small></span></legend>
-
-        <div class="grid two">
-          <div class="field">
-            <label class="label" for="education">วุฒิการศึกษาสูงสุด<span class="req">*</span></label>
-            <select id="education" name="education" required>
-              <option value="">เลือกวุฒิการศึกษา</option>
-              <option>ต่ำกว่า ม.3</option><option>ม.3</option><option>ม.6 / กศน.</option>
-              <option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option><option>สูงกว่าปริญญาตรี</option>
-            </select>
-          </div>
-          <div class="field">
-            <label class="label" for="major">สาขาที่จบ<span class="opt">(ถ้ามี)</span></label>
-            <input type="text" id="major" name="major" placeholder="เช่น ช่างไฟฟ้ากำลัง" maxlength="100">
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label" for="occupation">อาชีพปัจจุบัน<span class="req">*</span></label>
-          <input type="text" id="occupation" name="occupation" placeholder="เช่น ช่างไฟฟ้าอิสระ, เกษตรกร, พนักงานบริษัท" required maxlength="100">
-        </div>
-
-        <div class="field" data-group="experience">
-          <span class="label" id="expLabel">ประสบการณ์งานไฟฟ้า<span class="req">*</span></span>
-          <div class="choices" role="radiogroup" aria-labelledby="expLabel">
-            <label class="chip"><input type="radio" name="experience" value="ไม่มี" required><span>ไม่มี</span></label>
-            <label class="chip"><input type="radio" name="experience" value="น้อยกว่า 1 ปี"><span>น้อยกว่า 1 ปี</span></label>
-            <label class="chip"><input type="radio" name="experience" value="1–3 ปี"><span>1–3 ปี</span></label>
-            <label class="chip"><input type="radio" name="experience" value="มากกว่า 3 ปี"><span>มากกว่า 3 ปี</span></label>
-          </div>
-        </div>
-
-        <div class="field" data-group="certificate">
-          <span class="label" id="certLabel">มีหนังสือรับรองความรู้ความสามารถ / มาตรฐานฝีมือแรงงาน สาขาช่างไฟฟ้าหรือไม่<span class="req">*</span></span>
-          <div class="choices" role="radiogroup" aria-labelledby="certLabel">
-            <label class="chip"><input type="radio" name="certificate" value="มี" required><span>มี</span></label>
-            <label class="chip"><input type="radio" name="certificate" value="ไม่มี"><span>ไม่มี</span></label>
-            <label class="chip"><input type="radio" name="certificate" value="กำลังสอบ"><span>อยู่ระหว่างสอบ</span></label>
-          </div>
-        </div>
-      </fieldset>
-
-      <!-- 3 -->
-      <fieldset>
-        <legend><span class="step">3</span><span class="legend-text">หลักสูตรที่สนใจ<small>เลือกได้มากกว่า 1 หลักสูตร</small></span></legend>
+        <legend><span class="step">2</span><span class="legend-text">หลักสูตรที่สนใจ<small>เลือกได้มากกว่า 1 หลักสูตร</small></span></legend>
 
         <div class="field" data-group="courses">
           <span class="label" id="courseLabel">หลักสูตรที่อยากเรียน<span class="req">*</span></span>
@@ -362,9 +318,9 @@ button.submit[disabled] { opacity: .65; cursor: progress; }
         </div>
       </fieldset>
 
-      <!-- 4 -->
+      <!-- 3 -->
       <fieldset>
-        <legend><span class="step">4</span><span class="legend-text">ยืนยันการสมัคร</span></legend>
+        <legend><span class="step">3</span><span class="legend-text">ยืนยันการสมัคร</span></legend>
         <div class="policy">
           ข้อมูลส่วนบุคคลของท่านจะใช้เพื่อพิจารณาการสมัคร ติดต่อแจ้งรายละเอียดการอบรม และออกใบประกาศนียบัตรเท่านั้น
           จะไม่เปิดเผยแก่บุคคลภายนอกโดยไม่ได้รับความยินยอม ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA)
@@ -417,10 +373,6 @@ const MESSAGES = {
   age: 'กรอกอายุเป็นตัวเลข 15–80 ปี',
   phone: 'กรอกเบอร์โทร 9–10 หลัก ขึ้นต้นด้วย 0 เช่น 0812345678',
   email: 'รูปแบบอีเมลไม่ถูกต้อง เช่น name@gmail.com',
-  education: 'เลือกวุฒิการศึกษา',
-  occupation: 'กรอกอาชีพปัจจุบัน',
-  experience: 'เลือกประสบการณ์งานไฟฟ้า',
-  certificate: 'เลือกคำตอบ',
   courses: 'เลือกอย่างน้อย 1 หลักสูตร',
   schedule: 'เลือกช่วงเวลาที่สะดวก',
   goal: 'เลือกเป้าหมาย',
