@@ -61,16 +61,21 @@ body {
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 
-/* ---------- Header: ลายแผงโซลาร์ ---------- */
+/* ---------- Header: รูปแผงโซลาร์ + ไล่สีน้ำเงินเข้มด้านซ้ายให้อ่านตัวหนังสือชัด ---------- */
+/* รูป: Solar panels in the desert, U.S. National Park Service, Public domain (Wikimedia Commons) */
 .hero {
   background-color: var(--cell);
   background-image:
-    linear-gradient(90deg, var(--cell-line) 1px, transparent 1px),
-    linear-gradient(0deg, var(--cell-line) 1px, transparent 1px),
-    linear-gradient(90deg, transparent 49.6%, rgba(220,232,244,.08) 49.6%, rgba(220,232,244,.08) 50.4%, transparent 50.4%);
-  background-size: 44px 44px, 44px 44px, 22px 44px;
+    linear-gradient(90deg, rgba(12, 28, 48, .94) 0%, rgba(12, 28, 48, .82) 42%, rgba(12, 28, 48, .30) 100%),
+    url("hero.jpg");
+  background-size: cover;
+  background-position: center 62%;
   color: var(--on-cell);
 }
+@media (max-width: 640px) {
+  .hero { background-image: linear-gradient(180deg, rgba(12, 28, 48, .82), rgba(12, 28, 48, .70)), url("hero.jpg"); background-position: 70% 60%; }
+}
+.hero h1, .hero p { text-shadow: 0 1px 12px rgba(0, 0, 0, .35); }
 .hero .wrap { padding-block: 40px 72px; display: grid; gap: 14px; }
 .badge {
   justify-self: start; display: inline-flex; align-items: center; gap: 8px;
@@ -86,7 +91,7 @@ body {
 .specs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 .specs span {
   font: 500 12.5px/1 var(--font-mono); padding: 7px 10px; border-radius: 6px;
-  border: 1px solid rgba(220,232,244,.28); color: var(--on-cell);
+  border: 1px solid rgba(220,232,244,.32); color: var(--on-cell); background: rgba(12, 28, 48, .45);
 }
 
 /* ---------- Form card ---------- */
