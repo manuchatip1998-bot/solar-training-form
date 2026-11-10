@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ใบสมัครอบรมช่างโซลาร์เซลล์</title>
+<meta name="description" content="แบบฟอร์มสมัครอบรมช่างติดตั้งระบบโซลาร์เซลล์ ออนกริด ออฟกริด ไฮบริด และปั๊มน้ำโซลาร์">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: แถบหัวลายแผงเซลล์ (PV cell grid) + การ์ดฟอร์มคอลัมน์เดียว แบ่ง 4 ขั้นตอน */
+:root {
+  --bg: #f3f6f9;
+  --surface: #ffffff;
+  --ink: #14202e;
+  --muted: #566475;
+  --line: #d6dee7;
+  --cell: #1b3a5c;
+  --cell-line: rgba(196, 222, 248, .16);
+  --on-cell: #eef4fa;
+  --sun: #f2a516;
+  --sun-ink: #855300;
+  --sun-soft: #fff4dc;
+  --ok: #1d7a4b;
+  --err: #b3261e;
+  --err-soft: #fdeceb;
+  --font-display: "Bai Jamjuree", "IBM Plex Sans Thai", "Leelawadee UI", Tahoma, sans-serif;
+  --font-body: "IBM Plex Sans Thai", "Leelawadee UI", "Noto Sans Thai", Tahoma, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d141c; --surface: #151f2a; --ink: #e5ecf3; --muted: #9aa8b7; --line: #2a3846;
+    --cell: #17324f; --cell-line: rgba(196, 222, 248, .12); --on-cell: #eef4fa;
+    --sun: #f5b83f; --sun-ink: #f5b83f; --sun-soft: #2c2312;
+    --ok: #5cc493; --err: #ff8f86; --err-soft: #2e1918;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d141c; --surface: #151f2a; --ink: #e5ecf3; --muted: #9aa8b7; --line: #2a3846;
+  --cell: #17324f; --cell-line: rgba(196, 222, 248, .12); --on-cell: #eef4fa;
+  --sun: #f5b83f; --sun-ink: #f5b83f; --sun-soft: #2c2312;
+  --ok: #5cc493; --err: #ff8f86; --err-soft: #2e1918;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 16px/1.65 var(--font-body);
+  -webkit-text-size-adjust: 100%;
+}
+[hidden] { display: none !important; }
+.wrap {
+  max-width: 760px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- Header: ลายแผงโซลาร์ ---------- */
+.hero {
+  background-color: var(--cell);
+  background-image:
+    linear-gradient(90deg, var(--cell-line) 1px, transparent 1px),
+    linear-gradient(0deg, var(--cell-line) 1px, transparent 1px),
+    linear-gradient(90deg, transparent 49.6%, rgba(220,232,244,.08) 49.6%, rgba(220,232,244,.08) 50.4%, transparent 50.4%);
+  background-size: 44px 44px, 44px 44px, 22px 44px;
+  color: var(--on-cell);
+}
+.hero .wrap { padding-block: 40px 72px; display: grid; gap: 14px; }
+.badge {
+  justify-self: start; display: inline-flex; align-items: center; gap: 8px;
+  background: var(--sun); color: #2a1c00; font: 600 13px/1 var(--font-display);
+  letter-spacing: .04em; padding: 7px 12px 7px 10px; border-radius: 999px;
+}
+.badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #2a1c00; }
+.hero h1 {
+  margin: 0; font: 700 clamp(28px, 5.4vw, 42px)/1.25 var(--font-display);
+  text-wrap: balance;
+}
+.hero p { margin: 0; max-width: 58ch; color: color-mix(in srgb, var(--on-cell) 82%, transparent); }
+.specs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.specs span {
+  font: 500 12.5px/1 var(--font-mono); padding: 7px 10px; border-radius: 6px;
+  border: 1px solid rgba(220,232,244,.28); color: var(--on-cell);
+}
+
+/* ---------- Form card ---------- */
+main .wrap { margin-top: -44px; padding-block: 0 56px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 10px 30px -18px rgba(10, 30, 50, .35);
+}
+form.card { display: grid; }
+.demo {
+  margin: 20px 20px 0; padding: 12px 14px; border-radius: var(--r);
+  background: var(--sun-soft); color: var(--ink); font-size: 14px;
+  border: 1px dashed var(--sun);
+}
+.demo b { color: var(--sun-ink); }
+
+fieldset { border: 0; margin: 0; padding: 28px 20px; display: grid; gap: 18px; min-width: 0; }
+fieldset + fieldset { border-top: 1px solid var(--line); }
+@media (min-width: 640px) { fieldset { padding: 32px 36px; } .demo { margin: 24px 36px 0; } }
+legend { padding: 0; float: left; width: 100%; display: flex; align-items: center; gap: 12px; }
+legend + * { clear: both; }
+.step {
+  flex: none; width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center;
+  background: var(--cell); color: var(--on-cell); font: 600 15px/1 var(--font-mono);
+}
+.legend-text { font: 600 20px/1.3 var(--font-display); }
+.legend-text small { display: block; font: 400 13.5px/1.4 var(--font-body); color: var(--muted); }
+
+.grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 560px) {
+  .grid.two { grid-template-columns: 1fr 1fr; }
+  .grid.name { grid-template-columns: 130px 1fr 1fr; }
+}
+.field { display: grid; gap: 6px; min-width: 0; align-content: start; }
+.label { font-weight: 600; font-size: 15px; }
+.req { color: var(--err); margin-left: 2px; }
+.opt { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 4px; }
+.hint { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+input[type="text"], input[type="tel"], input[type="email"], input[type="number"], select, textarea {
+  width: 100%; font: inherit; color: var(--ink); background: var(--bg);
+  border: 1.5px solid var(--line); border-radius: var(--r); padding: 11px 13px;
+  transition: border-color .15s, box-shadow .15s;
+}
+textarea { min-height: 96px; resize: vertical; }
+select { appearance: none; padding-right: 38px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 19px) 50%, calc(100% - 14px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--cell); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sun) 45%, transparent);
+}
+.invalid input, .invalid select, .invalid textarea { border-color: var(--err); }
+.error { color: var(--err); font-size: 13.5px; font-weight: 500; }
+
+/* Choice chips & cards */
+.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip, .opt-card { position: relative; cursor: pointer; }
+.chip input, .opt-card input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.chip span {
+  display: inline-block; padding: 9px 14px; border-radius: 999px; border: 1.5px solid var(--line);
+  background: var(--bg); font-size: 15px; transition: all .15s;
+}
+.chip input:checked + span { background: var(--cell); border-color: var(--cell); color: var(--on-cell); }
+.chip input:focus-visible + span, .opt-card input:focus-visible + .oc { box-shadow: 0 0 0 3px color-mix(in srgb, var(--sun) 55%, transparent); }
+
+.cards { display: grid; gap: 10px; grid-template-columns: 1fr; }
+@media (min-width: 560px) { .cards { grid-template-columns: 1fr 1fr; } }
+.oc {
+  display: grid; grid-template-columns: 22px 1fr; gap: 4px 12px; height: 100%;
+  padding: 14px; border-radius: var(--r); border: 1.5px solid var(--line); background: var(--bg);
+  transition: border-color .15s, background .15s;
+}
+.oc .box {
+  grid-row: span 2; width: 22px; height: 22px; margin-top: 2px; border-radius: 6px;
+  border: 1.5px solid var(--muted); display: grid; place-items: center; background: var(--surface);
+}
+.oc .t { font-weight: 600; line-height: 1.4; }
+.oc .d { color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+.opt-card input:checked + .oc { border-color: var(--sun); background: var(--sun-soft); }
+.opt-card input:checked + .oc .box { background: var(--sun); border-color: var(--sun); }
+.opt-card input:checked + .oc .box::after {
+  content: ""; width: 6px; height: 11px; border: solid #2a1c00; border-width: 0 2.5px 2.5px 0;
+  transform: translateY(-1px) rotate(45deg);
+}
+
+.consent { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; cursor: pointer; font-size: 14.5px; }
+.consent input { width: 20px; height: 20px; margin: 3px 0 0; accent-color: var(--cell); }
+.policy { background: var(--bg); border-radius: var(--r); padding: 14px 16px; font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.actions { padding: 0 20px 32px; display: grid; gap: 14px; }
+@media (min-width: 640px) { .actions { padding: 0 36px 36px; } }
+.banner { padding: 12px 14px; border-radius: var(--r); background: var(--err-soft); color: var(--err); font-weight: 500; font-size: 14.5px; }
+button.submit {
+  font: 600 18px/1 var(--font-display); letter-spacing: .01em;
+  background: var(--sun); color: #2a1c00; border: 0; border-radius: var(--r);
+  padding: 17px 24px; cursor: pointer; transition: transform .1s, filter .15s;
+}
+button.submit:hover { filter: brightness(1.05); }
+button.submit:active { transform: translateY(1px); }
+button.submit:focus-visible { outline: 3px solid var(--cell); outline-offset: 3px; }
+button.submit[disabled] { opacity: .65; cursor: progress; }
+.fine { text-align: center; color: var(--muted); font-size: 13px; }
+
+/* Success */
+.done { padding: 40px 24px; display: grid; gap: 14px; justify-items: center; text-align: center; }
+.done .tick { width: 64px; height: 64px; border-radius: 50%; background: var(--ok); display: grid; place-items: center; }
+.done .tick::after { content: ""; width: 14px; height: 26px; border: solid #fff; border-width: 0 4px 4px 0; transform: translateY(-3px) rotate(45deg); }
+.done h2 { margin: 0; font: 700 26px/1.3 var(--font-display); }
+.done p { margin: 0; max-width: 48ch; color: var(--muted); }
+.appno { font: 500 22px/1 var(--font-mono); letter-spacing: .06em; padding: 12px 18px; border-radius: 8px; border: 1.5px dashed var(--line); color: var(--ink); }
+.again { font: inherit; font-weight: 600; background: none; border: 1.5px solid var(--line); color: var(--ink); border-radius: var(--r); padding: 10px 18px; cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">เปิดรับสมัคร</span>
+    <h1>ใบสมัครอบรมช่างติดตั้งระบบโซลาร์เซลล์</h1>
+    <p>กรอกข้อมูลให้ครบใช้เวลาประมาณ 3 นาที เจ้าหน้าที่จะติดต่อกลับทางโทรศัพท์หรือ LINE เพื่อแจ้งรอบอบรม สถานที่ และค่าใช้จ่าย</p>
+    <div class="specs" aria-label="หัวข้อการอบรม">
+      <span>On-grid</span><span>Off-grid</span><span>Hybrid + Battery</span><span>Solar Pump DC</span><span>kWp · Voc · Isc</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <form id="apply" class="card" novalidate>
+      <div class="demo" id="demoNote" hidden>
+        <b>โหมดทดลอง</b> ยังไม่ได้เชื่อมต่อ Google Sheets ข้อมูลที่กดส่งจะยังไม่ถูกบันทึก (ตั้งค่า <code>SCRIPT_URL</code> ตามคู่มือ README)
+      </div>
+
+      <!-- 1 -->
+      <fieldset>
+        <legend><span class="step">1</span><span class="legend-text">ข้อมูลผู้สมัคร<small>ใช้สำหรับติดต่อกลับและออกใบประกาศนียบัตร</small></span></legend>
+
+        <div class="grid name">
+          <div class="field">
+            <label class="label" for="prefix">คำนำหน้า<span class="req">*</span></label>
+            <select id="prefix" name="prefix" required>
+              <option value="">เลือก</option>
+              <option>นาย</option><option>นาง</option><option>นางสาว</option><option>อื่น ๆ</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="label" for="firstName">ชื่อ<span class="req">*</span></label>
+            <input type="text" id="firstName" name="firstName" autocomplete="given-name" required maxlength="80">
+          </div>
+          <div class="field">
+            <label class="label" for="lastName">นามสกุล<span class="req">*</span></label>
+            <input type="text" id="lastName" name="lastName" autocomplete="family-name" required maxlength="80">
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="field">
+            <label class="label" for="age">อายุ (ปี)<span class="req">*</span></label>
+            <input type="number" id="age" name="age" inputmode="numeric" min="15" max="80" required>
+          </div>
+          <div class="field">
+            <label class="label" for="province">จังหวัดที่อาศัยอยู่<span class="req">*</span></label>
+            <select id="province" name="province" required><option value="">เลือกจังหวัด</option></select>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="field">
+            <label class="label" for="phone">เบอร์โทรศัพท์<span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="08x-xxx-xxxx" required maxlength="15">
+          </div>
+          <div class="field">
+            <label class="label" for="lineId">LINE ID<span class="opt">(ถ้ามี)</span></label>
+            <input type="text" id="lineId" name="lineId" maxlength="60">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="email">อีเมล<span class="opt">(ถ้ามี)</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" maxlength="120">
+        </div>
+      </fieldset>
+
+      <!-- 2 -->
+      <fieldset>
+        <legend><span class="step">2</span><span class="legend-text">การศึกษาและประสบการณ์<small>ไม่มีพื้นฐานไฟฟ้าก็สมัครได้ ข้อมูลนี้ใช้จัดกลุ่มผู้เรียน</small></span></legend>
+
+        <div class="grid two">
+          <div class="field">
+            <label class="label" for="education">วุฒิการศึกษาสูงสุด<span class="req">*</span></label>
+            <select id="education" name="education" required>
+              <option value="">เลือกวุฒิการศึกษา</option>
+              <option>ต่ำกว่า ม.3</option><option>ม.3</option><option>ม.6 / กศน.</option>
+              <option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option><option>สูงกว่าปริญญาตรี</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="label" for="major">สาขาที่จบ<span class="opt">(ถ้ามี)</span></label>
+            <input type="text" id="major" name="major" placeholder="เช่น ช่างไฟฟ้ากำลัง" maxlength="100">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="occupation">อาชีพปัจจุบัน<span class="req">*</span></label>
+          <input type="text" id="occupation" name="occupation" placeholder="เช่น ช่างไฟฟ้าอิสระ, เกษตรกร, พนักงานบริษัท" required maxlength="100">
+        </div>
+
+        <div class="field" data-group="experience">
+          <span class="label" id="expLabel">ประสบการณ์งานไฟฟ้า<span class="req">*</span></span>
+          <div class="choices" role="radiogroup" aria-labelledby="expLabel">
+            <label class="chip"><input type="radio" name="experience" value="ไม่มี" required><span>ไม่มี</span></label>
+            <label class="chip"><input type="radio" name="experience" value="น้อยกว่า 1 ปี"><span>น้อยกว่า 1 ปี</span></label>
+            <label class="chip"><input type="radio" name="experience" value="1–3 ปี"><span>1–3 ปี</span></label>
+            <label class="chip"><input type="radio" name="experience" value="มากกว่า 3 ปี"><span>มากกว่า 3 ปี</span></label>
+          </div>
+        </div>
+
+        <div class="field" data-group="certificate">
+          <span class="label" id="certLabel">มีหนังสือรับรองความรู้ความสามารถ / มาตรฐานฝีมือแรงงาน สาขาช่างไฟฟ้าหรือไม่<span class="req">*</span></span>
+          <div class="choices" role="radiogroup" aria-labelledby="certLabel">
+            <label class="chip"><input type="radio" name="certificate" value="มี" required><span>มี</span></label>
+            <label class="chip"><input type="radio" name="certificate" value="ไม่มี"><span>ไม่มี</span></label>
+            <label class="chip"><input type="radio" name="certificate" value="กำลังสอบ"><span>อยู่ระหว่างสอบ</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 3 -->
+      <fieldset>
+        <legend><span class="step">3</span><span class="legend-text">หลักสูตรที่สนใจ<small>เลือกได้มากกว่า 1 หัวข้อ</small></span></legend>
+
+        <div class="field" data-group="courses">
+          <span class="label" id="courseLabel">หัวข้อที่อยากเรียน<span class="req">*</span></span>
+          <div class="cards" role="group" aria-labelledby="courseLabel">
+            <label class="opt-card"><input type="checkbox" name="courses" value="พื้นฐานระบบโซลาร์เซลล์"><span class="oc"><span class="box"></span><span class="t">พื้นฐานระบบโซลาร์เซลล์</span><span class="d">หลักการแผง PV, ค่า Voc / Isc, การคำนวณขนาดระบบ kWp</span></span></label>
+            <label class="opt-card"><input type="checkbox" name="courses" value="ติดตั้งระบบออนกริด"><span class="oc"><span class="box"></span><span class="t">ติดตั้งระบบออนกริด (On-grid)</span><span class="d">ระบบขนานไฟบ้าน อินเวอร์เตอร์กริดไท และการขออนุญาต กฟภ. / กฟน.</span></span></label>
+            <label class="opt-card"><input type="checkbox" name="courses" value="ระบบออฟกริด/ไฮบริด + แบตเตอรี่"><span class="oc"><span class="box"></span><span class="t">ออฟกริด / ไฮบริด + แบตเตอรี่</span><span class="d">ชาร์จคอนโทรลเลอร์ MPPT, แบตเตอรี่ LiFePO4, ระบบสำรองไฟ</span></span></label>
+            <label class="opt-card"><input type="checkbox" name="courses" value="ปั๊มน้ำโซลาร์เพื่อการเกษตร"><span class="oc"><span class="box"></span><span class="t">ปั๊มน้ำโซลาร์เพื่อการเกษตร</span><span class="d">ปั๊ม DC บัสเลส / ซับเมิร์ส การเลือกขนาดแผงให้เหมาะกับระยะส่งน้ำ</span></span></label>
+            <label class="opt-card"><input type="checkbox" name="courses" value="บำรุงรักษาและตรวจซ่อม"><span class="oc"><span class="box"></span><span class="t">บำรุงรักษาและตรวจซ่อม</span><span class="d">วัดค่าด้วยมัลติมิเตอร์และแคลมป์มิเตอร์ หาจุดเสีย ล้างแผง</span></span></label>
+            <label class="opt-card"><input type="checkbox" name="courses" value="ความปลอดภัยงานบนหลังคา"><span class="oc"><span class="box"></span><span class="t">ความปลอดภัยงานติดตั้งบนหลังคา</span><span class="d">อุปกรณ์กันตก การต่อสายดิน และอุปกรณ์ป้องกันฝั่ง DC</span></span></label>
+          </div>
+        </div>
+
+        <div class="field" data-group="schedule">
+          <span class="label" id="schedLabel">ช่วงเวลาที่สะดวกเรียน<span class="req">*</span></span>
+          <div class="choices" role="radiogroup" aria-labelledby="schedLabel">
+            <label class="chip"><input type="radio" name="schedule" value="วันธรรมดา" required><span>วันธรรมดา</span></label>
+            <label class="chip"><input type="radio" name="schedule" value="เสาร์–อาทิตย์"><span>เสาร์–อาทิตย์</span></label>
+            <label class="chip"><input type="radio" name="schedule" value="ได้ทุกวัน"><span>ได้ทุกวัน</span></label>
+          </div>
+        </div>
+
+        <div class="field" data-group="goal">
+          <span class="label" id="goalLabel">เป้าหมายหลังเรียนจบ<span class="req">*</span></span>
+          <div class="choices" role="radiogroup" aria-labelledby="goalLabel">
+            <label class="chip"><input type="radio" name="goal" value="ประกอบอาชีพช่าง/เปิดกิจการ" required><span>ประกอบอาชีพช่าง / เปิดกิจการ</span></label>
+            <label class="chip"><input type="radio" name="goal" value="ต่อยอดงานปัจจุบัน"><span>ต่อยอดงานปัจจุบัน</span></label>
+            <label class="chip"><input type="radio" name="goal" value="ติดตั้งใช้เองที่บ้าน/ไร่สวน"><span>ติดตั้งใช้เองที่บ้าน / ไร่สวน</span></label>
+            <label class="chip"><input type="radio" name="goal" value="สนใจหาความรู้"><span>สนใจหาความรู้</span></label>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="field">
+            <label class="label" for="source">รู้จักการอบรมนี้จากที่ไหน<span class="opt">(ถ้ามี)</span></label>
+            <select id="source" name="source">
+              <option value="">เลือก</option>
+              <option>Facebook</option><option>LINE</option><option>TikTok / YouTube</option>
+              <option>เพื่อน / คนรู้จักแนะนำ</option><option>เว็บไซต์</option><option>หน่วยงานรัฐ / อบต.</option><option>อื่น ๆ</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="note">คำถามหรือข้อมูลเพิ่มเติม<span class="opt">(ถ้ามี)</span></label>
+          <textarea id="note" name="note" maxlength="1000" placeholder="เช่น ต้องการใบเสร็จในนามบริษัท, มีแผงอยู่แล้วอยากเรียนต่อเติมระบบ"></textarea>
+        </div>
+      </fieldset>
+
+      <!-- 4 -->
+      <fieldset>
+        <legend><span class="step">4</span><span class="legend-text">ยืนยันการสมัคร</span></legend>
+        <div class="policy">
+          ข้อมูลส่วนบุคคลของท่านจะใช้เพื่อพิจารณาการสมัคร ติดต่อแจ้งรายละเอียดการอบรม และออกใบประกาศนียบัตรเท่านั้น
+          จะไม่เปิดเผยแก่บุคคลภายนอกโดยไม่ได้รับความยินยอม ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA)
+          ท่านขอดู แก้ไข หรือลบข้อมูลได้โดยติดต่อผู้จัดอบรม
+        </div>
+        <div class="field" data-group="consent">
+          <label class="consent"><input type="checkbox" id="consent" name="consent" value="ยินยอม" required>
+            <span>ข้าพเจ้ายินยอมให้เก็บและใช้ข้อมูลข้างต้นตามวัตถุประสงค์ที่ระบุ และรับรองว่าข้อมูลเป็นความจริง<span class="req">*</span></span>
+          </label>
+        </div>
+        <div class="hp" aria-hidden="true"><label>เว็บไซต์ <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      </fieldset>
+
+      <div class="actions">
+        <div class="banner" id="banner" role="alert" hidden></div>
+        <button type="submit" class="submit" id="submitBtn">ส่งใบสมัคร</button>
+        <div class="fine">ช่องที่มีเครื่องหมาย <span class="req">*</span> จำเป็นต้องกรอก</div>
+      </div>
+    </form>
+
+    <section class="card done" id="done" hidden aria-live="polite">
+      <div class="tick" aria-hidden="true"></div>
+      <h2>ส่งใบสมัครเรียบร้อย</h2>
+      <p id="doneMsg">เจ้าหน้าที่จะติดต่อกลับภายใน 3 วันทำการ กรุณาจดเลขที่ใบสมัครไว้สำหรับสอบถาม</p>
+      <div class="appno" id="appNo">—</div>
+      <button type="button" class="again" id="again">สมัครให้อีกคน</button>
+    </section>
+  </div>
+</main>
+
+<script>
+/* ===== ตั้งค่า: วาง URL ของ Google Apps Script Web App ที่นี่ (ดูขั้นตอนใน README.md) ===== */
+const CONFIG = {
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxgsqJn2mnt71EaVjixbxXSI48EWHsoXn0ZLXzhSl1YXfi1GXgEEsoWRNe9JelDWqEn/exec'
+};
+
+const PROVINCES = ["กรุงเทพมหานคร","กระบี่","กาญจนบุรี","กาฬสินธุ์","กำแพงเพชร","ขอนแก่น","จันทบุรี","ฉะเชิงเทรา","ชลบุรี","ชัยนาท","ชัยภูมิ","ชุมพร","เชียงราย","เชียงใหม่","ตรัง","ตราด","ตาก","นครนายก","นครปฐม","นครพนม","นครราชสีมา","นครศรีธรรมราช","นครสวรรค์","นนทบุรี","นราธิวาส","น่าน","บึงกาฬ","บุรีรัมย์","ปทุมธานี","ประจวบคีรีขันธ์","ปราจีนบุรี","ปัตตานี","พระนครศรีอยุธยา","พะเยา","พังงา","พัทลุง","พิจิตร","พิษณุโลก","เพชรบุรี","เพชรบูรณ์","แพร่","ภูเก็ต","มหาสารคาม","มุกดาหาร","แม่ฮ่องสอน","ยะลา","ยโสธร","ร้อยเอ็ด","ระนอง","ระยอง","ราชบุรี","ลพบุรี","ลำปาง","ลำพูน","เลย","ศรีสะเกษ","สกลนคร","สงขลา","สตูล","สมุทรปราการ","สมุทรสงคราม","สมุทรสาคร","สระแก้ว","สระบุรี","สิงห์บุรี","สุโขทัย","สุพรรณบุรี","สุราษฎร์ธานี","สุรินทร์","หนองคาย","หนองบัวลำภู","อ่างทอง","อุดรธานี","อุตรดิตถ์","อุทัยธานี","อุบลราชธานี","อำนาจเจริญ"];
+
+const form = document.getElementById('apply');
+const banner = document.getElementById('banner');
+const btn = document.getElementById('submitBtn');
+const provinceSel = document.getElementById('province');
+PROVINCES.forEach(p => provinceSel.add(new Option(p, p)));
+// เปิดจาก Apps Script (URL /exec) จะมี google.script.run ให้ใช้ ส่งตรงเข้าสคริปต์ได้เลย
+const GAS = typeof google === 'object' && google.script && google.script.run;
+const LIVE = !!(GAS || CONFIG.SCRIPT_URL);
+document.getElementById('demoNote').hidden = LIVE;
+
+const MESSAGES = {
+  prefix: 'เลือกคำนำหน้า',
+  firstName: 'กรอกชื่อ',
+  lastName: 'กรอกนามสกุล',
+  age: 'กรอกอายุเป็นตัวเลข 15–80 ปี',
+  province: 'เลือกจังหวัด',
+  phone: 'กรอกเบอร์โทร 9–10 หลัก ขึ้นต้นด้วย 0 เช่น 0812345678',
+  email: 'รูปแบบอีเมลไม่ถูกต้อง เช่น name@gmail.com',
+  education: 'เลือกวุฒิการศึกษา',
+  occupation: 'กรอกอาชีพปัจจุบัน',
+  experience: 'เลือกประสบการณ์งานไฟฟ้า',
+  certificate: 'เลือกคำตอบ',
+  courses: 'เลือกอย่างน้อย 1 หัวข้อ',
+  schedule: 'เลือกช่วงเวลาที่สะดวก',
+  goal: 'เลือกเป้าหมาย',
+  consent: 'กรุณายืนยันความยินยอมก่อนส่งใบสมัคร'
+};
+
+const cleanPhone = v => v.replace(/[\s\-().]/g, '');
+
+function fieldBox(name) {
+  const el = form.elements[name];
+  const node = el instanceof RadioNodeList ? el[0] : el;
+  return node.closest('[data-group]') || node.closest('.field');
+}
+function setError(name, msg) {
+  const box = fieldBox(name);
+  let err = box.querySelector(':scope > .error');
+  if (!msg) { box.classList.remove('invalid'); if (err) err.remove(); return true; }
+  box.classList.add('invalid');
+  if (!err) { err = document.createElement('div'); err.className = 'error'; box.appendChild(err); }
+  err.textContent = msg;
+  return false;
+}
+function check(name) {
+  const els = form.elements[name];
+  if (name === 'courses') return setError(name, form.querySelectorAll('input[name="courses"]:checked').length ? '' : MESSAGES.courses);
+  if (els instanceof RadioNodeList) return setError(name, [...els].some(e => e.checked) ? '' : MESSAGES[name]);
+  if (name === 'consent') return setError(name, els.checked ? '' : MESSAGES.consent);
+  const v = els.value.trim();
+  if (name === 'phone') return setError(name, /^0\d{8,9}$/.test(cleanPhone(v)) ? '' : MESSAGES.phone);
+  if (name === 'email') return setError(name, !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : MESSAGES.email);
+  if (name === 'age') { const n = Number(v); return setError(name, v && n >= 15 && n <= 80 ? '' : MESSAGES.age); }
+  return setError(name, v ? '' : MESSAGES[name]);
+}
+const CHECKED = Object.keys(MESSAGES);
+
+form.addEventListener('change', e => { if (CHECKED.includes(e.target.name) && fieldBox(e.target.name).classList.contains('invalid')) check(e.target.name); });
+form.addEventListener('input', e => { if (CHECKED.includes(e.target.name) && fieldBox(e.target.name).classList.contains('invalid')) check(e.target.name); });
+form.addEventListener('focusout', e => { const n = e.target.name; if (n && CHECKED.includes(n) && e.target.type !== 'radio' && e.target.type !== 'checkbox' && e.target.value) check(n); });
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  banner.hidden = true;
+  const results = CHECKED.map(n => [n, check(n)]);
+  const firstBad = results.find(([, ok]) => !ok);
+  if (firstBad) {
+    banner.textContent = 'ยังกรอกข้อมูลไม่ครบ ' + results.filter(([, ok]) => !ok).length + ' ช่อง กรุณาตรวจสอบช่องที่มีข้อความสีแดง';
+    banner.hidden = false;
+    const box = fieldBox(firstBad[0]);
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const focusable = box.querySelector('input, select, textarea');
+    if (focusable) focusable.focus({ preventScroll: true });
+    return;
+  }
+
+  const data = new URLSearchParams();
+  for (const [k, v] of new FormData(form)) data.append(k, k === 'phone' ? cleanPhone(String(v)) : String(v).trim());
+
+  btn.disabled = true; btn.textContent = 'กำลังส่ง…';
+  try {
+    let id;
+    if (GAS) {
+      const payload = {};
+      for (const [k, v] of data) (payload[k] = payload[k] || []).push(v);
+      const json = await new Promise((resolve, reject) =>
+        google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).submitApplication(payload));
+      if (!json || !json.ok) throw new Error((json && json.error) || 'server');
+      id = json.id;
+    } else if (CONFIG.SCRIPT_URL) {
+      const res = await fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: data });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error || 'server');
+      id = json.id;
+    } else {
+      await new Promise(r => setTimeout(r, 600));
+      id = 'DEMO-0000';
+    }
+    document.getElementById('appNo').textContent = id;
+    document.getElementById('doneMsg').textContent = LIVE
+      ? 'เจ้าหน้าที่จะติดต่อกลับทางเบอร์ ' + cleanPhone(form.phone.value) + ' กรุณาจดเลขที่ใบสมัครไว้สำหรับสอบถาม'
+      : 'โหมดทดลอง: ข้อมูลยังไม่ถูกบันทึก ตั้งค่า SCRIPT_URL เพื่อเชื่อมกับ Google Sheets';
+    form.hidden = true;
+    document.getElementById('done').hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (err) {
+    banner.textContent = 'ส่งใบสมัครไม่สำเร็จ ตรวจสอบสัญญาณอินเทอร์เน็ตแล้วกด "ส่งใบสมัคร" อีกครั้ง ข้อมูลที่กรอกไว้ยังอยู่ครบ';
+    banner.hidden = false;
+  } finally {
+    btn.disabled = false; btn.textContent = 'ส่งใบสมัคร';
+  }
+});
+
+document.getElementById('again').addEventListener('click', () => {
+  form.reset();
+  CHECKED.forEach(n => setError(n, ''));
+  document.getElementById('done').hidden = true;
+  form.hidden = false;
+  window.scrollTo({ top: 0 });
+});
+</script>
+</body>
+</html>
