@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-/* Layout: แถบหัวลายแผงเซลล์ (PV cell grid) + การ์ดฟอร์มคอลัมน์เดียว แบ่ง 3 ขั้นตอน */
+/* Layout: แถบหัวลายแผงเซลล์ (PV cell grid) + การ์ดฟอร์มคอลัมน์เดียว แบ่ง 2 ขั้นตอน */
 :root {
   --bg: #f3f6f9;
   --surface: #ffffff;
@@ -271,24 +271,7 @@ button.submit[disabled] { opacity: .65; cursor: progress; }
 
       <!-- 2 -->
       <fieldset>
-        <legend><span class="step">2</span><span class="legend-text">หลักสูตรที่สนใจ<small>หลักสูตรที่เปิดรับสมัครรอบนี้</small></span></legend>
-
-        <div class="field" data-group="courses">
-          <span class="label" id="courseLabel">หลักสูตรที่อยากเรียน<span class="req">*</span></span>
-          <div class="cards" role="group" aria-labelledby="courseLabel">
-            <label class="opt-card"><input type="checkbox" name="courses" value="ความปลอดภัยในงานที่สูง - โซล่าเซลล์" checked><span class="oc"><span class="box"></span><span class="t">ความปลอดภัยในงานที่สูง - โซล่าเซลล์</span></span></label>
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label" for="note">คำถามหรือข้อมูลเพิ่มเติม<span class="opt">(ถ้ามี)</span></label>
-          <textarea id="note" name="note" maxlength="1000" placeholder="เช่น ต้องการใบเสร็จในนามบริษัท, มีแผงอยู่แล้วอยากเรียนต่อเติมระบบ"></textarea>
-        </div>
-      </fieldset>
-
-      <!-- 3 -->
-      <fieldset>
-        <legend><span class="step">3</span><span class="legend-text">ยืนยันการสมัคร</span></legend>
+        <legend><span class="step">2</span><span class="legend-text">ยืนยันการสมัคร</span></legend>
         <div class="policy">
           ข้อมูลส่วนบุคคลของท่านจะใช้เพื่อพิจารณาการสมัคร ติดต่อแจ้งรายละเอียดการอบรม และออกใบประกาศนียบัตรเท่านั้น
           จะไม่เปิดเผยแก่บุคคลภายนอกโดยไม่ได้รับความยินยอม ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA)
@@ -299,6 +282,7 @@ button.submit[disabled] { opacity: .65; cursor: progress; }
             <span>ข้าพเจ้ายินยอมให้เก็บและใช้ข้อมูลข้างต้นตามวัตถุประสงค์ที่ระบุ และรับรองว่าข้อมูลเป็นความจริง<span class="req">*</span></span>
           </label>
         </div>
+        <input type="hidden" name="courses" value="ความปลอดภัยในงานที่สูง - โซล่าเซลล์">
         <div class="hp" aria-hidden="true"><label>เว็บไซต์ <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
       </fieldset>
 
@@ -341,7 +325,6 @@ const MESSAGES = {
   age: 'กรอกอายุเป็นตัวเลข 15–80 ปี',
   phone: 'กรอกเบอร์โทร 9–10 หลัก ขึ้นต้นด้วย 0 เช่น 0812345678',
   email: 'รูปแบบอีเมลไม่ถูกต้อง เช่น name@gmail.com',
-  courses: 'เลือกอย่างน้อย 1 หลักสูตร',
   consent: 'กรุณายืนยันความยินยอมก่อนส่งใบสมัคร'
 };
 
@@ -363,7 +346,6 @@ function setError(name, msg) {
 }
 function check(name) {
   const els = form.elements[name];
-  if (name === 'courses') return setError(name, form.querySelectorAll('input[name="courses"]:checked').length ? '' : MESSAGES.courses);
   if (els instanceof RadioNodeList) return setError(name, [...els].some(e => e.checked) ? '' : MESSAGES[name]);
   if (name === 'consent') return setError(name, els.checked ? '' : MESSAGES.consent);
   const v = els.value.trim();
