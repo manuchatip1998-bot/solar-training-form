@@ -280,36 +280,6 @@ button.submit[disabled] { opacity: .65; cursor: progress; }
           </div>
         </div>
 
-        <div class="field" data-group="schedule">
-          <span class="label" id="schedLabel">ช่วงเวลาที่สะดวกเรียน<span class="req">*</span></span>
-          <div class="choices" role="radiogroup" aria-labelledby="schedLabel">
-            <label class="chip"><input type="radio" name="schedule" value="วันธรรมดา" required><span>วันธรรมดา</span></label>
-            <label class="chip"><input type="radio" name="schedule" value="เสาร์–อาทิตย์"><span>เสาร์–อาทิตย์</span></label>
-            <label class="chip"><input type="radio" name="schedule" value="ได้ทุกวัน"><span>ได้ทุกวัน</span></label>
-          </div>
-        </div>
-
-        <div class="field" data-group="goal">
-          <span class="label" id="goalLabel">เป้าหมายหลังเรียนจบ<span class="req">*</span></span>
-          <div class="choices" role="radiogroup" aria-labelledby="goalLabel">
-            <label class="chip"><input type="radio" name="goal" value="ประกอบอาชีพช่าง/เปิดกิจการ" required><span>ประกอบอาชีพช่าง / เปิดกิจการ</span></label>
-            <label class="chip"><input type="radio" name="goal" value="ต่อยอดงานปัจจุบัน"><span>ต่อยอดงานปัจจุบัน</span></label>
-            <label class="chip"><input type="radio" name="goal" value="ติดตั้งใช้เองที่บ้าน/ไร่สวน"><span>ติดตั้งใช้เองที่บ้าน / ไร่สวน</span></label>
-            <label class="chip"><input type="radio" name="goal" value="สนใจหาความรู้"><span>สนใจหาความรู้</span></label>
-          </div>
-        </div>
-
-        <div class="grid two">
-          <div class="field">
-            <label class="label" for="source">รู้จักการอบรมนี้จากที่ไหน<span class="opt">(ถ้ามี)</span></label>
-            <select id="source" name="source">
-              <option value="">เลือก</option>
-              <option>Facebook</option><option>LINE</option><option>TikTok / YouTube</option>
-              <option>เพื่อน / คนรู้จักแนะนำ</option><option>เว็บไซต์</option><option>หน่วยงานรัฐ / อบต.</option><option>อื่น ๆ</option>
-            </select>
-          </div>
-        </div>
-
         <div class="field">
           <label class="label" for="note">คำถามหรือข้อมูลเพิ่มเติม<span class="opt">(ถ้ามี)</span></label>
           <textarea id="note" name="note" maxlength="1000" placeholder="เช่น ต้องการใบเสร็จในนามบริษัท, มีแผงอยู่แล้วอยากเรียนต่อเติมระบบ"></textarea>
@@ -372,8 +342,6 @@ const MESSAGES = {
   phone: 'กรอกเบอร์โทร 9–10 หลัก ขึ้นต้นด้วย 0 เช่น 0812345678',
   email: 'รูปแบบอีเมลไม่ถูกต้อง เช่น name@gmail.com',
   courses: 'เลือกอย่างน้อย 1 หลักสูตร',
-  schedule: 'เลือกช่วงเวลาที่สะดวก',
-  goal: 'เลือกเป้าหมาย',
   consent: 'กรุณายืนยันความยินยอมก่อนส่งใบสมัคร'
 };
 
