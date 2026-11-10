@@ -156,14 +156,13 @@ input:focus, select:focus, textarea:focus {
 .chip input:focus-visible + span, .opt-card input:focus-visible + .oc { box-shadow: 0 0 0 3px color-mix(in srgb, var(--sun) 55%, transparent); }
 
 .cards { display: grid; gap: 10px; grid-template-columns: 1fr; }
-@media (min-width: 560px) { .cards { grid-template-columns: 1fr 1fr; } }
 .oc {
-  display: grid; grid-template-columns: 22px 1fr; gap: 4px 12px; height: 100%;
+  display: grid; grid-template-columns: 22px 1fr; gap: 4px 12px; height: 100%; align-items: center;
   padding: 14px; border-radius: var(--r); border: 1.5px solid var(--line); background: var(--bg);
   transition: border-color .15s, background .15s;
 }
 .oc .box {
-  grid-row: span 2; width: 22px; height: 22px; margin-top: 2px; border-radius: 6px;
+  width: 22px; height: 22px; border-radius: 6px;
   border: 1.5px solid var(--muted); display: grid; place-items: center; background: var(--surface);
 }
 .oc .t { font-weight: 600; line-height: 1.4; }
@@ -320,17 +319,14 @@ button.submit[disabled] { opacity: .65; cursor: progress; }
 
       <!-- 3 -->
       <fieldset>
-        <legend><span class="step">3</span><span class="legend-text">หลักสูตรที่สนใจ<small>เลือกได้มากกว่า 1 หัวข้อ</small></span></legend>
+        <legend><span class="step">3</span><span class="legend-text">หลักสูตรที่สนใจ<small>เลือกได้มากกว่า 1 หลักสูตร</small></span></legend>
 
         <div class="field" data-group="courses">
-          <span class="label" id="courseLabel">หัวข้อที่อยากเรียน<span class="req">*</span></span>
+          <span class="label" id="courseLabel">หลักสูตรที่อยากเรียน<span class="req">*</span></span>
           <div class="cards" role="group" aria-labelledby="courseLabel">
-            <label class="opt-card"><input type="checkbox" name="courses" value="พื้นฐานระบบโซลาร์เซลล์"><span class="oc"><span class="box"></span><span class="t">พื้นฐานระบบโซลาร์เซลล์</span><span class="d">หลักการแผง PV, ค่า Voc / Isc, การคำนวณขนาดระบบ kWp</span></span></label>
-            <label class="opt-card"><input type="checkbox" name="courses" value="ติดตั้งระบบออนกริด"><span class="oc"><span class="box"></span><span class="t">ติดตั้งระบบออนกริด (On-grid)</span><span class="d">ระบบขนานไฟบ้าน อินเวอร์เตอร์กริดไท และการขออนุญาต กฟภ. / กฟน.</span></span></label>
-            <label class="opt-card"><input type="checkbox" name="courses" value="ระบบออฟกริด/ไฮบริด + แบตเตอรี่"><span class="oc"><span class="box"></span><span class="t">ออฟกริด / ไฮบริด + แบตเตอรี่</span><span class="d">ชาร์จคอนโทรลเลอร์ MPPT, แบตเตอรี่ LiFePO4, ระบบสำรองไฟ</span></span></label>
-            <label class="opt-card"><input type="checkbox" name="courses" value="ปั๊มน้ำโซลาร์เพื่อการเกษตร"><span class="oc"><span class="box"></span><span class="t">ปั๊มน้ำโซลาร์เพื่อการเกษตร</span><span class="d">ปั๊ม DC บัสเลส / ซับเมิร์ส การเลือกขนาดแผงให้เหมาะกับระยะส่งน้ำ</span></span></label>
-            <label class="opt-card"><input type="checkbox" name="courses" value="บำรุงรักษาและตรวจซ่อม"><span class="oc"><span class="box"></span><span class="t">บำรุงรักษาและตรวจซ่อม</span><span class="d">วัดค่าด้วยมัลติมิเตอร์และแคลมป์มิเตอร์ หาจุดเสีย ล้างแผง</span></span></label>
-            <label class="opt-card"><input type="checkbox" name="courses" value="ความปลอดภัยงานบนหลังคา"><span class="oc"><span class="box"></span><span class="t">ความปลอดภัยงานติดตั้งบนหลังคา</span><span class="d">อุปกรณ์กันตก การต่อสายดิน และอุปกรณ์ป้องกันฝั่ง DC</span></span></label>
+            <label class="opt-card"><input type="checkbox" name="courses" value="ความปลอดภัยในงานที่สูง - โซล่าเซลล์"><span class="oc"><span class="box"></span><span class="t">ความปลอดภัยในงานที่สูง - โซล่าเซลล์</span></span></label>
+            <label class="opt-card"><input type="checkbox" name="courses" value="ช่างเครื่องปรับอากาศในบ้านและการพาณิชย์ขนาดเล็ก ระดับ 1"><span class="oc"><span class="box"></span><span class="t">ช่างเครื่องปรับอากาศในบ้านและการพาณิชย์ขนาดเล็ก ระดับ 1</span></span></label>
+            <label class="opt-card"><input type="checkbox" name="courses" value="ช่างไฟฟ้าภายในอาคาร ระดับ 1"><span class="oc"><span class="box"></span><span class="t">ช่างไฟฟ้าภายในอาคาร ระดับ 1</span></span></label>
           </div>
         </div>
 
@@ -433,7 +429,7 @@ const MESSAGES = {
   occupation: 'กรอกอาชีพปัจจุบัน',
   experience: 'เลือกประสบการณ์งานไฟฟ้า',
   certificate: 'เลือกคำตอบ',
-  courses: 'เลือกอย่างน้อย 1 หัวข้อ',
+  courses: 'เลือกอย่างน้อย 1 หลักสูตร',
   schedule: 'เลือกช่วงเวลาที่สะดวก',
   goal: 'เลือกเป้าหมาย',
   consent: 'กรุณายืนยันความยินยอมก่อนส่งใบสมัคร'
