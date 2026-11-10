@@ -399,17 +399,29 @@ form.addEventListener('submit', async e => {
   btn.disabled = true; btn.textContent = 'กำลังส่ง…';
   try {
     let id;
-    if (GAS) {
-      const payload = {};
-      for (const [k, v] of data) (payload[k] = payload[k] || []).push(v);
-      const json = await new Promise((resolve, reject) =>
-        google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).submitApplication(payload));
+    const send = async params => {
+      if (GAS) {
+        const payload = {};
+        for (const [k, v] of params) (payload[k] = payload[k] || []).push(v);
+        return new Promise((resolve, reject) =>
+          google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).submitApplication(payload));
+      }
+      const res = await fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: params });
+      return res.json();
+    };
+    if (LIVE) {
+      let json = await send(data);
+      // Apps Script เวอร์ชันเก่ายังบังคับช่องที่หน้าเว็บเลิกถามแล้ว (เช่น จังหวัด):
+      // ถ้าขาดเฉพาะช่องที่ไม่มีในฟอร์มนี้ ให้ใส่ "-" แล้วส่งใหม่ (คำขอแรกถูกปฏิเสธ ไม่มีการบันทึกซ้ำ)
+      const missing = json && !json.ok && /^missing: (.+)$/.exec(json.error || '');
+      if (missing) {
+        const keys = missing[1].split(',');
+        if (keys.every(k => !form.elements[k])) {
+          keys.forEach(k => data.append(k, '-'));
+          json = await send(data);
+        }
+      }
       if (!json || !json.ok) throw new Error((json && json.error) || 'server');
-      id = json.id;
-    } else if (CONFIG.SCRIPT_URL) {
-      const res = await fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: data });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || 'server');
       id = json.id;
     } else {
       await new Promise(r => setTimeout(r, 600));
