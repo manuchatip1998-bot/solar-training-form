@@ -250,10 +250,6 @@ button.submit[disabled] { opacity: .65; cursor: progress; }
             <label class="label" for="age">อายุ (ปี)<span class="req">*</span></label>
             <input type="number" id="age" name="age" inputmode="numeric" min="15" max="80" required>
           </div>
-          <div class="field">
-            <label class="label" for="province">จังหวัดที่อาศัยอยู่<span class="req">*</span></label>
-            <select id="province" name="province" required><option value="">เลือกจังหวัด</option></select>
-          </div>
         </div>
 
         <div class="grid two">
@@ -405,13 +401,10 @@ const CONFIG = {
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxgsqJn2mnt71EaVjixbxXSI48EWHsoXn0ZLXzhSl1YXfi1GXgEEsoWRNe9JelDWqEn/exec'
 };
 
-const PROVINCES = ["กรุงเทพมหานคร","กระบี่","กาญจนบุรี","กาฬสินธุ์","กำแพงเพชร","ขอนแก่น","จันทบุรี","ฉะเชิงเทรา","ชลบุรี","ชัยนาท","ชัยภูมิ","ชุมพร","เชียงราย","เชียงใหม่","ตรัง","ตราด","ตาก","นครนายก","นครปฐม","นครพนม","นครราชสีมา","นครศรีธรรมราช","นครสวรรค์","นนทบุรี","นราธิวาส","น่าน","บึงกาฬ","บุรีรัมย์","ปทุมธานี","ประจวบคีรีขันธ์","ปราจีนบุรี","ปัตตานี","พระนครศรีอยุธยา","พะเยา","พังงา","พัทลุง","พิจิตร","พิษณุโลก","เพชรบุรี","เพชรบูรณ์","แพร่","ภูเก็ต","มหาสารคาม","มุกดาหาร","แม่ฮ่องสอน","ยะลา","ยโสธร","ร้อยเอ็ด","ระนอง","ระยอง","ราชบุรี","ลพบุรี","ลำปาง","ลำพูน","เลย","ศรีสะเกษ","สกลนคร","สงขลา","สตูล","สมุทรปราการ","สมุทรสงคราม","สมุทรสาคร","สระแก้ว","สระบุรี","สิงห์บุรี","สุโขทัย","สุพรรณบุรี","สุราษฎร์ธานี","สุรินทร์","หนองคาย","หนองบัวลำภู","อ่างทอง","อุดรธานี","อุตรดิตถ์","อุทัยธานี","อุบลราชธานี","อำนาจเจริญ"];
 
 const form = document.getElementById('apply');
 const banner = document.getElementById('banner');
 const btn = document.getElementById('submitBtn');
-const provinceSel = document.getElementById('province');
-PROVINCES.forEach(p => provinceSel.add(new Option(p, p)));
 // เปิดจาก Apps Script (URL /exec) จะมี google.script.run ให้ใช้ ส่งตรงเข้าสคริปต์ได้เลย
 const GAS = typeof google === 'object' && google.script && google.script.run;
 const LIVE = !!(GAS || CONFIG.SCRIPT_URL);
@@ -422,7 +415,6 @@ const MESSAGES = {
   firstName: 'กรอกชื่อ',
   lastName: 'กรอกนามสกุล',
   age: 'กรอกอายุเป็นตัวเลข 15–80 ปี',
-  province: 'เลือกจังหวัด',
   phone: 'กรอกเบอร์โทร 9–10 หลัก ขึ้นต้นด้วย 0 เช่น 0812345678',
   email: 'รูปแบบอีเมลไม่ถูกต้อง เช่น name@gmail.com',
   education: 'เลือกวุฒิการศึกษา',

@@ -33,7 +33,8 @@ const FIELDS = [
   ['status',      'สถานะ (เจ้าหน้าที่กรอก)'],
 ];
 
-const REQUIRED = ['prefix', 'firstName', 'lastName', 'age', 'province', 'phone', 'education',
+// คอลัมน์ 'จังหวัด' ยังเก็บไว้ใน FIELDS เพื่อไม่ให้คอลัมน์ในชีตเดิมเลื่อน (หน้าเว็บเลิกถามจังหวัดแล้ว ช่องนี้จะว่าง)
+const REQUIRED = ['prefix', 'firstName', 'lastName', 'age', 'phone', 'education',
   'occupation', 'experience', 'certificate', 'courses', 'schedule', 'goal', 'consent'];
 
 // เปิด URL ของเว็บแอป (/exec) = แสดงหน้าฟอร์มจากไฟล์ index.html ในโปรเจกต์นี้
